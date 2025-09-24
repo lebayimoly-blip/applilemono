@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ajouter un véhicule</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body {
+      background-color: #228B22;
+      font-family: 'Segoe UI', sans-serif;
+      color: #FFD700;
+      text-align: center;
+      padding: 30px;
+      margin: 0;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+      font-size: 2em;
+    }
+
+    form {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      border: 2px solid #1E90FF;
+      color: #228B22;
+      max-width: 400px;
+      margin: 0 auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    input, textarea {
+      display: block;
+      margin: 10px auto;
+      padding: 12px;
+      width: 90%;
+      max-width: 300px;
+      border-radius: 5px;
+      border: 1px solid #1E90FF;
+      font-size: 1em;
+    }
+
+    button {
+      background-color: #1E90FF;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      font-size: 1em;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #187bcd;
+    }
+
+    .message {
+      margin-top: 20px;
+      font-weight: bold;
+      color: red;
+    }
+
+    @media screen and (max-width: 480px) {
+      h1 {
+        font-size: 1.5em;
+      }
+
+      form {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>➕ Ajouter un véhicule</h1>
+
+  <form method="post">
+    <input type="text" name="plate" placeholder="Plaque" required>
+    <input type="text" name="owner" placeholder="Propriétaire" required>
+    <input type="date" name="insurance_expiry" required>
+    <textarea name="history" placeholder="Historique"></textarea>
+    <input type="text" name="brand" placeholder="Marque">
+    <input type="text" name="model" placeholder="Modèle">
+    <input type="date" name="first_registration">
+    <button type="submit">Ajouter</button>
+  </form>
+
+  {% if message %}
+    <div class="message">{{ message }}</div>
+  {% endif %}
+</body>
+</html>

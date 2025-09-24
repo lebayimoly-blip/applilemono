@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ajouter un utilisateur</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="form-container">
+    <h1>👤 Ajouter un utilisateur</h1>
+
+    {% if message %}
+      <div class="form-message">{{ message }}</div>
+    {% endif %}
+
+    <form method="post">
+      <label for="username">Nom d'utilisateur</label>
+      <input type="text" id="username" name="username" required>
+
+      <label for="password">Mot de passe</label>
+      <input type="password" id="password" name="password" required>
+
+      <label for="role">Rôle</label>
+      <select id="role" name="role" required>
+        <option value="">-- Choisir un rôle --</option>
+        <option value="admin">Administrateur</option>
+        <option value="agent">Agent</option>
+      </select>
+
+      <button type="submit" class="btn-submit">✅ Ajouter</button>
+    </form>
+
+    <a href="/dashboard" class="btn-back">← Retour au dashboard</a>
+  </div>
+</body>
+</html>
+

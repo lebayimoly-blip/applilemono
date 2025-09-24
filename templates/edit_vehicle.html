@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Modifier le véhicule</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 500px;
+      margin: auto;
+    }
+    input, textarea {
+      padding: 8px;
+      font-size: 1em;
+    }
+    button {
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .message {
+      text-align: center;
+      color: green;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Modifier le véhicule {{ vehicle['plate'] }}</h1>
+  </header>
+
+  <form method="post">
+    <input type="text" name="owner" value="{{ vehicle['owner'] }}" placeholder="Nom du propriétaire" required>
+    <input type="date" name="insurance_expiry" value="{{ vehicle['insurance_expiry'] }}" required>
+    <textarea name="history" placeholder="Historique">{{ vehicle['history'] }}</textarea>
+    <input type="text" name="brand" value="{{ vehicle['brand'] }}" placeholder="Marque">
+    <input type="text" name="model" value="{{ vehicle['model'] }}" placeholder="Modèle">
+    <input type="date" name="first_registration" value="{{ vehicle['first_registration'] }}">
+    <button type="submit">💾 Enregistrer les modifications</button>
+  </form>
+
+  {% if message %}
+    <div class="message">{{ message }}</div>
+  {% endif %}
+
+  <div style="text-align:center; margin-top:20px;">
+    <a href="/search">🔙 Retour à la recherche</a>
+  </div>
+</body>
+</html>

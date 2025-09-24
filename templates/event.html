@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ajouter un événement</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <h1>Ajouter un événement pour {{ plate }}</h1>
+  </header>
+
+  <form method="post" enctype="multipart/form-data">
+    <textarea name="comment" placeholder="Commentaire sur l'incident" rows="4" required></textarea>
+    <input type="file" name="photo" accept="image/*">
+    <button type="submit">Ajouter l'événement</button>
+  </form>
+
+  {% if message %}
+    <div class="results">
+      <p>{{ message }}</p>
+    </div>
+  {% endif %}
+
+  <a href="/search">Retour à la recherche</a>
+</body>
+</html>

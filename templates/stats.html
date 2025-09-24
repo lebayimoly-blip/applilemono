@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Statistiques</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body {
+      background-color: #228B22;
+      font-family: 'Segoe UI', sans-serif;
+      color: #FFD700;
+      text-align: center;
+      padding: 50px;
+    }
+
+    .stat-box {
+      background-color: white;
+      color: #228B22;
+      border: 2px solid #1E90FF;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px auto;
+      width: 300px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+  <h1>📊 Statistiques du système</h1>
+
+  <div class="stat-box">
+    <h2>🚗 Véhicules enregistrés</h2>
+    <p>{{ total_vehicles }}</p>
+  </div>
+
+  <div class="stat-box">
+    <h2>📅 Événements enregistrés</h2>
+    <p>{{ total_events }}</p>
+  </div>
+
+  <div class="stat-box">
+    <h2>⚠️ Assurances expirées</h2>
+    <p>{{ expired_insurance }}</p>
+  </div>
+
+  <a href="/dashboard" style="color:white;">⬅️ Retour au tableau de bord</a>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-image: url("{{ url_for('static', filename='perroquet_gabon.png') }}");
+      background-size: cover;
+      background-position: center;
+      font-family: 'Segoe UI', sans-serif;
+      color: #FFD700;
+      text-align: center;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+      text-shadow: 1px 1px 3px #000;
+    }
+
+    form {
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 30px;
+      border-radius: 10px;
+      display: inline-block;
+      color: #228B22;
+      border: 2px solid #1E90FF;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    input {
+      display: block;
+      margin: 10px auto;
+      padding: 12px;
+      width: 250px;
+      border-radius: 5px;
+      border: 1px solid #1E90FF;
+    }
+
+    button {
+      background-color: #1E90FF;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #187bcd;
+    }
+
+    .message {
+      margin-top: 20px;
+      font-weight: bold;
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h1>Application Véhicule Gabon</h1>
+
+  <form method="post">
+    <input type="text" name="username" placeholder="Nom d'utilisateur" required>
+    <input type="password" name="password" placeholder="Mot de passe" required>
+    <button type="submit">Se connecter</button>
+  </form>
+
+  {% if error %}
+    <div class="message">{{ error }}</div>
+  {% endif %}
+</body>
+</html>

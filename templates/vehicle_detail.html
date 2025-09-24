@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Fiche véhicule</title>
+</head>
+<body>
+  <h1>Fiche du véhicule</h1>
+
+  {% if vehicle.photo %}
+    <img src="{{ url_for('static', filename='uploads/' + vehicle.photo) }}" alt="Photo du véhicule" style="max-width:300px;">
+  {% else %}
+    <p style="color:red;">Aucune photo disponible</p>
+  {% endif %}
+
+  <p><strong>Plaque :</strong> {{ vehicle['plate'] }}</p>
+  <p><strong>Propriétaire :</strong> {{ vehicle['owner'] }}</p>
+  <p><strong>Assurance :</strong> {{ vehicle['insurance_expiry'] }}</p>
+  <p><strong>Marque :</strong> {{ vehicle['brand'] }}</p>
+  <p><strong>Modèle :</strong> {{ vehicle['model'] }}</p>
+  <p><strong>1ère immatriculation :</strong> {{ vehicle['first_registration'] }}</p>
+  <p><strong>Historique :</strong> {{ vehicle['history'] }}</p>
+</body>
+</html>

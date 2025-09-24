@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Recherche Véhicule</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body {
+      background-color: #228B22; /* Vert forêt */
+      font-family: 'Segoe UI', sans-serif;
+      color: #FFD700; /* Jaune équateur */
+      text-align: center;
+      padding: 50px;
+    }
+
+    h1 {
+      margin-bottom: 40px;
+      color: #FFD700;
+    }
+
+    form {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      display: inline-block;
+      border: 2px solid #1E90FF;
+      color: #228B22;
+      margin-bottom: 30px;
+    }
+
+    input {
+      display: block;
+      margin: 10px auto;
+      padding: 10px;
+      width: 250px;
+      border-radius: 5px;
+      border: 1px solid #1E90FF;
+    }
+
+    button {
+      background-color: #1E90FF;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #187bcd;
+    }
+
+    .results {
+      margin-top: 30px;
+    }
+
+    .results ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .results li {
+      background-color: white;
+      color: #228B22;
+      border: 2px solid #1E90FF;
+      border-radius: 10px;
+      padding: 15px;
+      margin: 10px auto;
+      width: 300px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    .no-result {
+      color: red;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Recherche de véhicule</h1>
+
+  <form method="post">
+    <input type="text" name="plate" placeholder="Plaque d'immatriculation">
+    <input type="text" name="owner" placeholder="Propriétaire">
+    <button type="submit">Rechercher</button>
+  </form>
+
+  <div class="results">
+{% if result %}
+  <h2>✅ Véhicule trouvé :</h2>
+  <p><strong>Plaque :</strong> {{ result['plate'] }}</p>
+  <p><strong>Propriétaire :</strong> {{ result['owner'] }}</p>
+  <p><strong>Marque :</strong> {{ result['brand'] }}</p>
+  <p><strong>Modèle :</strong> {{ result['model'] }}</p>
+  <p><strong>Date d’assurance :</strong> {{ result['insurance_expiry'] }}</p>
+  <p><strong>Date de première immatriculation :</strong> {{ result['first_registration'] }}</p>
+
+  {% if result['photo'] %}
+    <img src="{{ url_for('static', filename='uploads/' ~ result['photo']) }}" alt="Photo du véhicule" width="300">
+  {% endif %}
+{% elif result is not none %}
+  <p style="color:red;">❌ Aucun résultat, veuillez vérifier vos informations.</p>
+{% endif %}
+
+    {% if results %}
+      <h2>Résultats :</h2>
+      <ul>
+        {% for v in results %}
+          <li>
+            <strong>{{ v['plate'] }}</strong> — {{ v['owner'] }} — {{ v['insurance_expiry'] }}<br>
+            <a href="/vehicle/{{ v['plate'] }}">📄 Voir</a> |
+            <a href="/edit/{{ v['plate'] }}">✏️ Modifier</a> |
+            <a href="/event/{{ v['plate'] }}">➕ Ajouter événement</a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% elif request.method == 'POST' %}
+      <div class="no-result">Aucun résultat, veuillez vérifier vos informations 🤔</div>
+    {% endif %}
+
+{% if result %}
+  <h2>✅ Résultat trouvé :</h2>
+  <p><a href="{{ url_for('vehicle_detail', plate=result['plate']) }}">
+    🔍 Voir les détails du véhicule {{ result['plate'] }}
+  </a></p>
+{% elif result is not none %}
+  <p style="color:red;">❌ Aucun résultat, veuillez vérifier vos informations.</p>
+{% endif %}
+
+  </div>
+</body>
+</html>

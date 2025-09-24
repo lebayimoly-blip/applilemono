@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Historique du véhicule</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <h1>Historique pour {{ vehicle['plate'] }}</h1>
+  </header>
+
+  <div class="results">
+    <p><strong>Propriétaire :</strong> {{ vehicle['owner'] }}</p>
+    <p><strong>Assurance :</strong> {{ vehicle['insurance_expiry'] }}</p>
+    <p><strong>Marque :</strong> {{ vehicle['brand'] }}</p>
+    <p><strong>Modèle :</strong> {{ vehicle['model'] }}</p>
+    <p><strong>Date de première mise en circulation :</strong> {{ vehicle['first_registration'] }}</p>
+    <p><strong>Historique initial :</strong> {{ vehicle['history'] }}</p>
+  </div>
+
+  {% if events %}
+    <div class="results">
+      <h2>Événements enregistrés :</h2>
+      <ul>
+        {% for e in events %}
+          <li>
+            📅 {{ e['date'] }}<br>
+            💬 {{ e['comment'] }}<br>
+            {% if e['photo'] %}
+              📷 <a href="{{ url_for('static', filename='uploads/' ~ e['photo']) }}" target="_blank">Voir la photo</a>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% else %}
+    <p>Aucun événement enregistré pour ce véhicule.</p>
+  {% endif %}
+
+  <a href="/search">🔙 Retour à la recherche</a>
+</body>
+</html>

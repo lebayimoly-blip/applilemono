@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">    
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Importer des véhicules</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body {
+      background-color: #228B22;
+      font-family: 'Segoe UI', sans-serif;
+      color: #FFD700;
+      text-align: center;
+      padding: 30px;
+    }
+
+    form {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      border: 2px solid #1E90FF;
+      color: #228B22;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    input[type="file"] {
+      margin: 10px auto;
+      padding: 10px;
+      width: 90%;
+      max-width: 300px;
+      border-radius: 5px;
+      border: 1px solid #1E90FF;
+    }
+
+    button {
+      background-color: #1E90FF;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .message {
+      margin-top: 20px;
+      font-weight: bold;
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+<p>
+  📄 <a href="{{ url_for('static', filename='modele_vehicules.xlsx') }}" download style="color:#FFD700; font-weight:bold;">
+    Télécharger le modèle Excel
+  </a>
+</p>
+
+  <h1>📥 Importer des véhicules via Excel</h1>
+
+  <form method="post" enctype="multipart/form-data">
+    <input type="file" name="excel_file" accept=".xlsx" required>
+    <button type="submit">Importer</button>
+  </form>
+
+  {% if message %}
+    <div class="message">{{ message }}</div>
+  {% endif %}
+
+{% if duplicates %}
+  <div class="message">
+    <p>🚫 Doublons détectés :</p>
+    <ul>
+      {% for plate in duplicates %}
+        <li>{{ plate }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+
+{% if format_errors %}
+  <div class="message">
+    <p>🚫 Erreurs de format :</p>
+    <ul>
+      {% for err in format_errors %}
+        <li>{{ err }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+
+{% if duplicates %}
+  <div class="message">
+    <p>🚫 Doublons détectés :</p>
+    <ul>
+      {% for plate in duplicates %}
+        <li>{{ plate }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+
+
+</body>
+</html>
