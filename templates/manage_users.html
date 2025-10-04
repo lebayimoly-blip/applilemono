@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestion des utilisateurs</title>
+  <style>
+    body { font-family: Arial; padding: 30px; background-color: #f4f4f4; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { padding: 10px; border: 1px solid #ccc; text-align: left; }
+    form { margin-top: 30px; background: white; padding: 20px; border-radius: 10px; }
+    input, select { padding: 8px; margin: 5px 0; width: 100%; }
+    button { padding: 10px; background-color: #007BFF; color: white; border: none; border-radius: 6px; cursor: pointer; }
+    button:hover { background-color: #0056b3; }
+  </style>
+</head>
+<body>
+  <h1>👑 Super utilisateur : {{ session['admin'] }}</h1>
+  <h2>📋 Liste des utilisateurs</h2>
+
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>Nom</th>
+      <th>Email</th>
+      <th>Rôle</th>
+      <th>Action</th>
+    </tr>
+    {% for user in users %}
+    <tr>
+      <td>{{ user['id'] }}</td>
+      <td>{{ user['username'] }}</td>
+      <td>{{ user['email'] }}</td>
+      <td>{{ user['role'] }}</td>
+      <td>
+        <form method="POST" style="display:inline;">
+          <input type="hidden" name="user_id" value="{{ user['id'] }}">
+          <input type="text" name="username" value="{{ user['username'] }}" required>
+          <input type="email" name="email" value="{{ user['email'] }}">
+          <input type="text" name="password" placeholder="Nouveau mot de passe">
+          <select name="role">
+            <option value="admin" {% if user['role'] == 'admin' %}selected{% endif %}>Admin</option>
+            <option value="agent" {% if user['role'] == 'agent' %}selected{% endif %}>Agent</option>
+            <option value="lecteur" {% if user['role'] == 'lecteur' %}selected{% endif %}>Lecteur</option>
+          </select>
+          <button type="submit">💾 Modifier</button>
+        </form>
+        <a href="/admin/users/delete/{{ user['id'] }}" onclick="return confirm('Supprimer cet utilisateur ?')">🗑️ Supprimer</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <h2>➕ Ajouter un nouvel utilisateur</h2>
+  <form method="POST">
+    <input type="text" name="username" placeholder="Nom d’utilisateur" required>
+    <input type="email" name="email" placeholder="Email">
+    <input type="text" name="password" placeholder="Mot de passe">
+    <select name="role">
+      <option value="admin">Admin</option>
+      <option value="agent">Agent</option>
+      <option value="lecteur">Lecteur</option>
+    </select>
+    <button type="submit">Ajouter</button>
+  </form>
+</body>
+</html>

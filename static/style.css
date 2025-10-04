@@ -66,3 +66,38 @@ a:hover {
   max-width: 500px;
   border-radius: 4px;
 }
+
+.logout-button {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.logout-link {
+  background-color: #FFD700;
+  color: #228B22;
+  padding: 15px 30px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1em;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  transition: background-color 0.3s ease;
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.logout-link:hover {
+  background-color: #e6c200;
+}
+
+.logout-link .car {
+  display: inline-block;
+  position: relative;
+  left: 0;
+  transition: left 0.5s ease;
+}
+
+.logout-link:hover .car {
+  left: 10px;
+}

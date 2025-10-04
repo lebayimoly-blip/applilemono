@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajouter un incident</title>
+</head>
+<body>
+    <h2>Ajouter un nouvel incident</h2>
+
+    {% if message %}
+        <p style="color: green;">{{ message }}</p>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data">
+        <label for="plate">Sélectionner un véhicule :</label><br>
+        <select name="plate" id="plate" required>
+            <option value="">-- Choisir une plaque --</option>
+            {% for vehicle in vehicles %}
+                <option value="{{ vehicle['plate'] }}">{{ vehicle['plate'] }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="description">Description de l'incident :</label><br>
+        <textarea name="description" id="description" rows="4" cols="50" required></textarea><br><br>
+
+        <label for="photo">Photo de l'incident :</label><br>
+        <input type="file" name="photo" id="photo" accept="image/*"><br><br>
+
+        <button type="submit">Ajouter l'incident</button>
+    </form>
+
+    <br>
+    <a href="/dashboard">⬅ Retour au tableau de bord</a>
+</body>
+</html>

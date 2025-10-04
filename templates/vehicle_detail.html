@@ -1,11 +1,82 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8"> 
   <title>Fiche véhicule</title>
+  <style>
+    body {
+      background: linear-gradient(to right, #f0f4f8, #d9e2ec);
+      font-family: 'Segoe UI', sans-serif;
+      color: #333;
+      padding: 30px;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      padding: 30px;
+    }
+
+    h1, h2, h3 {
+      color: #228B22;
+      margin-bottom: 20px;
+    }
+
+    .incident {
+      background-color: #fff8e1;
+      border-left: 5px solid #ffa000;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+    }
+
+    .incident img {
+      margin-top: 10px;
+      max-width: 100%;
+      border-radius: 6px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+
+    form {
+      margin-top: 30px;
+      background-color: #e3f2fd;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    form textarea, form input[type="file"] {
+      width: 100%;
+      margin-top: 10px;
+      margin-bottom: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    form button {
+      background-color: #228B22;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    form button:hover {
+      background-color: #1a6e1a;
+    }
+  </style>
 </head>
 <body>
   <h1>Fiche du véhicule</h1>
+{% if message %}
+  <p style="color: green; font-weight: bold;">{{ message }}</p>
+{% endif %}
 
   {% if vehicle.photo %}
     <img src="{{ url_for('static', filename='uploads/' + vehicle.photo) }}" alt="Photo du véhicule" style="max-width:300px;">
@@ -13,12 +84,63 @@
     <p style="color:red;">Aucune photo disponible</p>
   {% endif %}
 
+<form method="POST" enctype="multipart/form-data" style="margin-top: 20px;">
+  <label for="photo">📸 Nouvelle photo du véhicule :</label><br>
+  <input type="file" name="photo" accept="image/*" required>
+  <button type="submit">Mettre à jour la photo</button>
+</form>
+
+<form method="POST" style="margin-top: 20px;">
+  <label for="last_maintenance">🛠️ Nouvelle date d’entretien :</label><br>
+  <input type="date" name="last_maintenance" required>
+  <button type="submit">Mettre à jour la date</button>
+</form>
+
   <p><strong>Plaque :</strong> {{ vehicle['plate'] }}</p>
   <p><strong>Propriétaire :</strong> {{ vehicle['owner'] }}</p>
   <p><strong>Assurance :</strong> {{ vehicle['insurance_expiry'] }}</p>
   <p><strong>Marque :</strong> {{ vehicle['brand'] }}</p>
   <p><strong>Modèle :</strong> {{ vehicle['model'] }}</p>
   <p><strong>1ère immatriculation :</strong> {{ vehicle['first_registration'] }}</p>
-  <p><strong>Historique :</strong> {{ vehicle['history'] }}</p>
+ <p><strong>Dernier entretien :</strong>
+  {% if vehicle['last_maintenance'] %}
+    {{ vehicle['last_maintenance'] }}
+  {% else %}
+    <span style="color: gray;">Non renseigné</span>
+  {% endif %}
+</p>
+
+
+
+
+  <div class="container">
+    <h3>📋 Historique des incidents</h3>
+
+    {% if incidents %}
+      {% for incident in incidents %}
+        <div class="incident">
+          <p><strong>Publié le :</strong> {{ incident['created_at'] }}</p>
+          <p>{{ incident['description'] }}</p>
+          {% if incident['photo'] %}
+            <img src="{{ url_for('static', filename='uploads/' + incident['photo']) }}" alt="Photo de l’incident">
+          {% endif %}
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>Aucun incident enregistré pour ce véhicule.</p>
+    {% endif %}
+
+    {% if session['role'] == 'agent' %}
+      <form method="POST" action="{{ url_for('add_incident', plate=vehicle['plate']) }}" enctype="multipart/form-data">
+        <label for="description">📝 Description de l’incident :</label>
+        <textarea name="description" required></textarea>
+
+        <label for="photo">📸 Photo de l’incident :</label>
+        <input type="file" name="photo" accept="image/*">
+
+        <button type="submit">Ajouter l’incident</button>
+      </form>
+    {% endif %}
+  </div>
 </body>
 </html>

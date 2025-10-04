@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Détail de l'incident</title>
+</head>
+<body>
+    <h2>Détail de l’incident</h2>
+    <p>{{ incident['description'] }}</p>
+    {% if incident['created_at'] %}
+        {% set date = incident['created_at'][:10] %}
+        {% set heure = incident['created_at'][11:] %}
+        <p><strong>Ajouté le :</strong> {{ date }} à {{ heure }}</p>
+    {% else %}
+        <p><strong>Date :</strong> inconnue</p>
+    {% endif %}
+    <a href="/dashboard">Retour au tableau de bord</a>
+</body>
+</html>

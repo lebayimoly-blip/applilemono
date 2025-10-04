@@ -50,17 +50,24 @@
       color: #187bcd;
     }
 
-    .logout a {
-      background-color: #1E90FF;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 5px;
-      text-decoration: none;
-      font-weight: bold;
+    .logout-button {
+      margin-top: 40px;
     }
 
-    .logout a:hover {
-      background-color: #187bcd;
+    .logout-button a {
+      background-color: #FFD700;
+      color: #228B22;
+      padding: 15px 30px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.1em;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      transition: background-color 0.3s ease;
+    }
+
+    .logout-button a:hover {
+      background-color: #e6c200;
     }
 
     @media screen and (max-width: 480px) {
@@ -70,6 +77,11 @@
 
       .card {
         width: 90%;
+      }
+
+      .logout-button a {
+        width: 90%;
+        display: inline-block;
       }
     }
   </style>
@@ -81,22 +93,24 @@
     <div class="card"><h2>🔍 Rechercher</h2><a href="/search">Accéder</a></div>
     <div class="card"><h2>✏️ Modifier</h2><a href="/search">Choisir</a></div>
     <div class="card"><h2>📊 Statistiques</h2><a href="/admin/stats">Voir</a></div>
-    <div class="card"><h2>📥 Ajouter événement</h2><a href="/search">Sélectionner</a></div>
+    <div class="card"><h2>⚠️ Ajouter incident</h2><a href="/add_incident">Créer</a></div>
     <div class="card"><h2>➕ Ajouter véhicule</h2><a href="/add_vehicle">Créer</a></div>
+    <div class="card"><h2>📥 Import Excel</h2><a href="/import_excel">Charger</a></div>
+
+    {% if admin == 'lebayi moly' and role == 'admin' %}
+      <div class="card"><h2>👑 Gestion des utilisateurs</h2><a href="/admin/users">Accéder</a></div>
+    {% endif %}
+
+    {% if session['role'] == 'admin' %}
+      <div class="card"><h2>👤 Ajouter un utilisateur</h2><a href="/admin/add_user">Créer</a></div>
+    {% endif %}
   </div>
 
-  <div class="logout">
-    <a href="/logout">🚪 Se déconnecter</a>
-  </div>
-
-<div class="card">
-  <h2>📥 Import Excel</h2>
-  <a href="/import_excel">Charger</a>
+<div class="logout-button">
+  <a href="/logout" class="logout-link">
+    🚪 Se déconnecter <span class="car">🚗</span>
+  </a>
 </div>
-
-{% if session['role'] == 'admin' %}
-  <a href="/admin/add_user" class="btn-add-user">👤 Ajouter un utilisateur</a>
-{% endif %}
 
 </body>
 </html>
