@@ -101,3 +101,25 @@ a:hover {
 .logout-link:hover .car {
   left: 10px;
 }
+
+.navbar {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
+}
+
+.home-link {
+  background-color: #FFD700;
+  color: #228B22;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 0 0 5px rgba(0,0,0,0.2);
+  transition: background-color 0.3s ease;
+}
+
+.home-link:hover {
+  background-color: #e6c200;
+}

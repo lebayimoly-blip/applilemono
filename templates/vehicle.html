@@ -5,6 +5,7 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+{% include 'navbar.html' %}
   <header>
     <h1>Historique pour {{ vehicle['plate'] }}</h1>
   </header>

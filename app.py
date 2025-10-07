@@ -311,6 +311,110 @@ def delete_user(user_id):
     conn.commit()
     conn.close()
     return redirect('/admin/users')
+import sqlite3
+
+def get_all_vehicles():
+    conn = sqlite3.connect('database.db')  # remplace par le nom réel de ta base
+    cursor = conn.cursor()
+    cursor.execute("SELECT plate, model FROM vehicles")
+    rows = cursor.fetchall()
+    conn.close()
+    return [{'plate': row[0], 'model': row[1]} for row in rows]
+
+@app.route('/modify_vehicle')
+def modify_vehicle():
+    vehicles = get_all_vehicles()
+    return render_template('modify_vehicle.html', vehicles=vehicles)
+
+@app.route('/select_vehicle', methods=['POST'])
+def select_vehicle():
+    plate = request.form['plate']
+    return redirect(url_for('vehicle_detail_modify', plate=plate))  # ✅ nouvelle fiche
+
+import sqlite3
+
+def get_vehicle_by_plate(plate):
+    conn = sqlite3.connect('database.db')  # remplace par ton nom de base si différent
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM vehicles WHERE plate = ?", (plate,))
+    row = cursor.fetchone()
+    conn.close()
+
+    if row:
+        return {
+            'plate': row[0],
+            'owner': row[1],
+            'insurance_expiry': row[2],
+            'history': row[3],
+            'brand': row[4],
+            'model': row[5],
+            'first_registration': row[6]
+        }
+    else:
+        return None
+@app.route('/edit_vehicle/<plate>', methods=['GET', 'POST'])
+def edit_vehicle(plate):
+    if request.method == 'POST':
+        # mise à jour ici si nécessaire
+        pass
+
+    vehicle = get_vehicle_by_plate(plate)
+    if vehicle:
+        return render_template('edit_vehicle.html', vehicle=vehicle)
+    else:
+        return "Véhicule introuvable", 404
+
+@app.route('/vehicle/modify/<plate>', methods=['GET', 'POST'])
+def vehicle_detail_modify(plate):
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+
+    if request.method == 'POST':
+        owner = request.form['owner']
+        insurance_expiry = request.form['insurance_expiry']
+        history = request.form['history']
+        brand = request.form['brand']
+        model = request.form['model']
+        first_registration = request.form['first_registration']
+        maintenance_date = request.form.get('maintenance_date')
+
+        # Gestion de la photo
+        photo_file = request.files.get('photo')
+        photo_filename = None
+        if photo_file and photo_file.filename:
+            photo_filename = secure_filename(photo_file.filename)
+            photo_path = os.path.join('static/uploads', photo_filename)
+            photo_file.save(photo_path)
+
+        # Mise à jour SQL
+        cursor.execute("""
+            UPDATE vehicles
+            SET owner = ?, insurance_expiry = ?, history = ?, brand = ?, model = ?, first_registration = ?, maintenance_date = ?, photo = ?
+            WHERE plate = ?
+        """, (owner, insurance_expiry, history, brand, model, first_registration, maintenance_date, photo_filename, plate))
+        conn.commit()
+
+    # Récupération des données
+    cursor.execute("SELECT * FROM vehicles WHERE plate = ?", (plate,))
+    row = cursor.fetchone()
+    conn.close()
+
+    if row:
+        vehicle = {
+            'plate': row[0],
+            'owner': row[1],
+            'insurance_expiry': row[2],
+            'history': row[3],
+            'brand': row[4],
+            'model': row[5],
+            'first_registration': row[6],
+            'maintenance_date': row[7],
+            'photo': row[8]
+        }
+        return render_template('vehicle_detail_modify.html', vehicle=vehicle)
+    else:
+        return "Véhicule introuvable", 404
+
 
 
 # 🚀 Lancement de l'app

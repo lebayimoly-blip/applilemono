@@ -87,11 +87,13 @@
   </style>
 </head>
 <body>
+{% include 'navbar.html' %}
   <h1>Bienvenue {{ session['admin'] }}</h1>
 
   <div class="dashboard">
-    <div class="card"><h2>🔍 Rechercher</h2><a href="/search">Accéder</a></div>
-    <div class="card"><h2>✏️ Modifier</h2><a href="/search">Choisir</a></div>
+    <div class="card"><h2>🔍 Rechercher</h2><a href="/search">Accéder</a>
+</div><div class="card"><h2>✏️ Modifier</h2><a href="/modify_vehicle">Choisir</a></div>
+
     <div class="card"><h2>📊 Statistiques</h2><a href="/admin/stats">Voir</a></div>
     <div class="card"><h2>⚠️ Ajouter incident</h2><a href="/add_incident">Créer</a></div>
     <div class="card"><h2>➕ Ajouter véhicule</h2><a href="/add_vehicle">Créer</a></div>

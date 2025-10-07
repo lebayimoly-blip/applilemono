@@ -3,3 +3,4 @@ pandas
 werkzeug
 openpyxl
 gunicorn
+Jinja2

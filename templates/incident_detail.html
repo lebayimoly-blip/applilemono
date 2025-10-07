@@ -5,6 +5,7 @@
     <title>Détail de l'incident</title>
 </head>
 <body>
+{% include 'navbar.html' %}
     <h2>Détail de l’incident</h2>
     <p>{{ incident['description'] }}</p>
     {% if incident['created_at'] %}

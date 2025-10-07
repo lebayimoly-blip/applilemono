@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Modifier les détails du véhicule</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    .container {
+      max-width: 800px;
+      margin: auto;
+      padding: 30px;
+      background-color: #f9f9f9;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #1E90FF;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    label {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    input {
+      padding: 10px;
+      font-size: 1em;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      padding: 12px;
+      background-color: #228B22;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #1a6e1a;
+    }
+    .message {
+      text-align: center;
+      color: green;
+      margin-top: 15px;
+    }
+    .back-link {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .back-link a {
+      color: #1E90FF;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .photo-preview {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .photo-preview img {
+      max-width: 300px;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+  {% include 'navbar.html' %}
+
+  <div class="container">
+    <h1>🔧 Modifier le véhicule {{ vehicle.plate }}</h1>
+
+    {% if vehicle.photo %}
+      <div class="photo-preview">
+        <p>📸 Photo actuelle :</p>
+        <img src="{{ url_for('static', filename='uploads/' ~ vehicle.photo) }}" alt="Photo du véhicule">
+      </div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data">
+      <div>
+        <label for="owner">Propriétaire :</label>
+        <input type="text" id="owner" name="owner" value="{{ vehicle.owner }}" required>
+      </div>
+
+      <div>
+        <label for="insurance_expiry">Date d'expiration de l'assurance :</label>
+        <input type="date" id="insurance_expiry" name="insurance_expiry" value="{{ vehicle.insurance_expiry }}" required>
+      </div>
+
+      <div>
+        <label for="brand">Marque :</label>
+        <input type="text" id="brand" name="brand" value="{{ vehicle.brand }}">
+      </div>
+
+      <div>
+        <label for="model">Modèle :</label>
+        <input type="text" id="model" name="model" value="{{ vehicle.model }}">
+      </div>
+
+      <div>
+        <label for="first_registration">Date de première immatriculation :</label>
+        <input type="date" id="first_registration" name="first_registration" value="{{ vehicle.first_registration }}">
+      </div>
+
+      <div>
+        <label for="maintenance_date">🛠️ Nouvelle date d’entretien :</label>
+        <input type="date" id="maintenance_date" name="maintenance_date" value="{{ vehicle.maintenance_date }}">
+      </div>
+
+      <div>
+        <label for="photo">📸 Nouvelle photo du véhicule :</label>
+        <input type="file" id="photo" name="photo">
+      </div>
+
+      <button type="submit">💾 Enregistrer les modifications</button>
+    </form>
+
+    {% if message %}
+      <div class="message">{{ message }}</div>
+    {% endif %}
+
+    <div class="back-link">
+      <a href="/search">🔙 Retour à la recherche</a>
+    </div>
+  </div>
+</body>
+</html>

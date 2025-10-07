@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Modifier un véhicule</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  {% include 'navbar.html' %}
+
+  <h1 class="page-title">🔧 Modifier un véhicule</h1>
+
+  <form method="post" action="{{ url_for('select_vehicle') }}" class="update-form">
+    <label for="plate">Sélectionner une plaque :</label>
+    <select name="plate" id="plate" required>
+      {% for vehicle in vehicles %}
+        <option value="{{ vehicle.plate }}">{{ vehicle.plate }} — {{ vehicle.model }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit">Modifier</button>
+  </form>
+</body>
+</html>
