@@ -1,56 +1,76 @@
-body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #f4f4f4;
-  margin: 0;
-  padding: 0;
+:root {
+  --primary-dark: #1F2F56;     /* Bleu nuit */
+  --primary-light: #4F8FC0;    /* Bleu clair */
+  --background-light: #F5F7FA; /* Gris doux */
+  --accent-green: #A5E6BA;     /* Vert menthe */
+  --text-light: #FFFFFF;       /* Blanc pur */
+  --highlight-yellow: #FFD700; /* Jaune vif */
 }
 
+/* Corps de page */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: var(--background-light);
+  margin: 0;
+  padding: 0;
+  color: var(--primary-dark);
+}
+
+/* En-tête */
 header {
-  background-color: #228B22;
-  color: white;
+  background-color: var(--primary-dark);
+  color: var(--text-light);
   padding: 20px;
   text-align: center;
 }
 
+/* Titres */
 h1 {
   margin: 0;
   font-size: 2em;
+  color: var(--primary-dark);
 }
 
+/* Formulaires */
 form {
-  background-color: white;
+  background-color: var(--text-light);
   padding: 20px;
   margin: 30px auto;
   max-width: 500px;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  box-shadow: 0 0 10px rgba(31, 47, 86, 0.1);
+  border: 2px solid var(--primary-light);
 }
 
+/* Champs */
 input[type="text"],
 input[type="password"] {
   width: 100%;
   padding: 10px;
   margin-bottom: 15px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--primary-light);
   border-radius: 4px;
 }
 
+/* Boutons */
 button {
-  background-color: #FFD700;
-  color: #228B22;
+  background-color: var(--primary-light);
+  color: var(--text-light);
   border: none;
   padding: 10px 20px;
   font-weight: bold;
   border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
-  background-color: #f0c800;
+  background-color: var(--primary-dark);
 }
 
+/* Liens */
 a {
-  color: #1E90FF;
+  color: var(--primary-light);
   text-decoration: none;
 }
 
@@ -58,23 +78,26 @@ a:hover {
   text-decoration: underline;
 }
 
+/* Résultats */
 .results {
-  background-color: #e6f7ff;
-  border-left: 5px solid #1E90FF;
+  background-color: var(--accent-green);
+  border-left: 5px solid var(--primary-light);
   padding: 15px;
   margin: 20px auto;
   max-width: 500px;
   border-radius: 4px;
+  color: var(--primary-dark);
 }
 
+/* Bouton de déconnexion */
 .logout-button {
   margin-top: 40px;
   text-align: center;
 }
 
 .logout-link {
-  background-color: #FFD700;
-  color: #228B22;
+  background-color: var(--highlight-yellow);
+  color: var(--primary-dark);
   padding: 15px 30px;
   border-radius: 10px;
   text-decoration: none;
@@ -102,6 +125,7 @@ a:hover {
   left: 10px;
 }
 
+/* Navbar */
 .navbar {
   position: fixed;
   top: 10px;
@@ -110,8 +134,8 @@ a:hover {
 }
 
 .home-link {
-  background-color: #FFD700;
-  color: #228B22;
+  background-color: var(--highlight-yellow);
+  color: var(--primary-dark);
   padding: 10px 20px;
   border-radius: 8px;
   text-decoration: none;
