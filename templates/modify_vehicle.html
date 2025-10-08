@@ -1,23 +1,20 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <title>Modifier un véhicule</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-  {% include 'navbar.html' %}
+{% extends 'base.html' %}
 
-  <h1 class="page-title">🔧 Modifier un véhicule</h1>
+{% block title %}Modifier un véhicule{% endblock %}
 
-  <form method="post" action="{{ url_for('select_vehicle') }}" class="update-form">
-    <label for="plate">Sélectionner une plaque :</label>
-    <select name="plate" id="plate" required>
-      {% for vehicle in vehicles %}
-        <option value="{{ vehicle.plate }}">{{ vehicle.plate }} — {{ vehicle.model }}</option>
-      {% endfor %}
-    </select>
-    <button type="submit">Modifier</button>
+{% block content %}
+  <h1 class="mb-4">🔧 Modifier un véhicule</h1>
+
+  <form method="post" action="{{ url_for('select_vehicle') }}" class="bg-white p-4 rounded shadow-sm border border-primary-light" style="max-width: 500px; margin: auto;">
+    <div class="mb-3">
+      <label for="plate" class="form-label">Sélectionner une plaque :</label>
+      <select name="plate" id="plate" class="form-select" required>
+        {% for vehicle in vehicles %}
+          <option value="{{ vehicle.plate }}">{{ vehicle.plate }} — {{ vehicle.model }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">Modifier</button>
   </form>
-</body>
-</html>
+{% endblock %}

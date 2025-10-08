@@ -1,27 +1,44 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Ajouter un événement</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-{% include 'navbar.html' %}
-  <header>
-    <h1>Ajouter un événement pour {{ plate }}</h1>
-  </header>
+{% extends 'base.html' %}
 
-  <form method="post" enctype="multipart/form-data">
-    <textarea name="comment" placeholder="Commentaire sur l'incident" rows="4" required></textarea>
-    <input type="file" name="photo" accept="image/*">
-    <button type="submit">Ajouter l'événement</button>
+{% block title %}Importer des véhicules{% endblock %}
+
+{% block content %}
+  <p>
+    📄 <a href="{{ url_for('static', filename='modele_vehicules.xlsx') }}" download class="fw-bold text-primary">
+      Télécharger le modèle Excel
+    </a>
+  </p>
+
+  <h1 class="mb-4">📥 Importer des véhicules via Excel</h1>
+
+  <form method="post" enctype="multipart/form-data" class="bg-white p-4 rounded shadow-sm border border-primary-light" style="max-width: 400px; margin: auto;">
+    <input type="file" name="excel_file" accept=".xlsx" class="form-control mb-3" required>
+    <button type="submit" class="btn btn-primary w-100">Importer</button>
   </form>
 
   {% if message %}
-    <div class="results">
-      <p>{{ message }}</p>
+    <div class="message text-danger fw-bold mt-4">{{ message }}</div>
+  {% endif %}
+
+  {% if duplicates %}
+    <div class="message text-danger mt-4">
+      <p>🚫 Doublons détectés :</p>
+      <ul>
+        {% for plate in duplicates %}
+          <li>{{ plate }}</li>
+        {% endfor %}
+      </ul>
     </div>
   {% endif %}
 
-  <a href="/search">Retour à la recherche</a>
-</body>
-</html>
+  {% if format_errors %}
+    <div class="message text-danger mt-4">
+      <p>🚫 Erreurs de format :</p>
+      <ul>
+        {% for err in format_errors %}
+          <li>{{ err }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+{% endblock %}

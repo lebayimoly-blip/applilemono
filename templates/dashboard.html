@@ -1,118 +1,60 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tableau de bord</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <style>
-    body {
-      background-color: #228B22;
-      font-family: 'Segoe UI', sans-serif;
-      color: #FFD700;
-      text-align: center;
-      padding: 30px;
-      margin: 0;
-    }
+{% extends 'base.html' %}
 
-    h1 {
-      margin-bottom: 30px;
-      font-size: 2em;
-    }
+{% block title %}Tableau de bord{% endblock %}
 
-    .dashboard {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      margin-bottom: 30px;
-    }
+{% block content %}
+  <h1 class="mb-4">Bienvenue {{ session['admin'] }}</h1>
 
-    .card {
-      background-color: white;
-      color: #228B22;
-      border: 2px solid #1E90FF;
-      border-radius: 10px;
-      padding: 20px;
-      width: 250px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
-      text-align: center;
-    }
+  <div class="dashboard d-flex flex-wrap justify-content-center gap-4 mb-4">
+    <div class="card">
+      <h2>🔍 Rechercher</h2>
+      <a href="/search">Accéder</a>
+    </div>
 
-    .card a {
-      display: inline-block;
-      margin-top: 10px;
-      text-decoration: none;
-      color: #1E90FF;
-      font-weight: bold;
-    }
+    <div class="card">
+      <h2>✏️ Modifier</h2>
+      <a href="/modify_vehicle">Choisir</a>
+    </div>
 
-    .card a:hover {
-      color: #187bcd;
-    }
+<div class="card">
+  <h2>📊 Statistiques</h2>
+  <a href="/admin/stats">Voir</a>
+</div>
 
-    .logout-button {
-      margin-top: 40px;
-    }
 
-    .logout-button a {
-      background-color: #FFD700;
-      color: #228B22;
-      padding: 15px 30px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 1.1em;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
-      transition: background-color 0.3s ease;
-    }
+    <div class="card">
+      <h2>⚠️ Ajouter incident</h2>
+      <a href="/add_incident">Créer</a>
+    </div>
 
-    .logout-button a:hover {
-      background-color: #e6c200;
-    }
+    <div class="card">
+      <h2>➕ Ajouter véhicule</h2>
+      <a href="/add_vehicle">Créer</a>
+    </div>
 
-    @media screen and (max-width: 480px) {
-      h1 {
-        font-size: 1.5em;
-      }
-
-      .card {
-        width: 90%;
-      }
-
-      .logout-button a {
-        width: 90%;
-        display: inline-block;
-      }
-    }
-  </style>
-</head>
-<body>
-{% include 'navbar.html' %}
-  <h1>Bienvenue {{ session['admin'] }}</h1>
-
-  <div class="dashboard">
-    <div class="card"><h2>🔍 Rechercher</h2><a href="/search">Accéder</a>
-</div><div class="card"><h2>✏️ Modifier</h2><a href="/modify_vehicle">Choisir</a></div>
-
-    <div class="card"><h2>📊 Statistiques</h2><a href="/admin/stats">Voir</a></div>
-    <div class="card"><h2>⚠️ Ajouter incident</h2><a href="/add_incident">Créer</a></div>
-    <div class="card"><h2>➕ Ajouter véhicule</h2><a href="/add_vehicle">Créer</a></div>
-    <div class="card"><h2>📥 Import Excel</h2><a href="/import_excel">Charger</a></div>
+    <div class="card">
+      <h2>📥 Import Excel</h2>
+      <a href="/import_excel">Charger</a>
+    </div>
 
     {% if admin == 'lebayi moly' and role == 'admin' %}
-      <div class="card"><h2>👑 Gestion des utilisateurs</h2><a href="/admin/users">Accéder</a></div>
+      <div class="card">
+        <h2>👑 Gestion des utilisateurs</h2>
+        <a href="/admin/users">Accéder</a>
+      </div>
     {% endif %}
 
     {% if session['role'] == 'admin' %}
-      <div class="card"><h2>👤 Ajouter un utilisateur</h2><a href="/admin/add_user">Créer</a></div>
+      <div class="card">
+        <h2>👤 Ajouter un utilisateur</h2>
+        <a href="/admin/add_user">Créer</a>
+      </div>
     {% endif %}
   </div>
 
-<div class="logout-button">
-  <a href="/logout" class="logout-link">
-    🚪 Se déconnecter <span class="car">🚗</span>
-  </a>
-</div>
-
-</body>
-</html>
+  <div class="logout-button text-center mt-4">
+    <a href="/logout" class="logout-link">
+      🚪 Se déconnecter <span class="car">🚗</span>
+    </a>
+  </div>
+{% endblock %}

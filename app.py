@@ -196,7 +196,7 @@ def admin_stats():
     conn = get_db_connection()
     total_vehicles = conn.execute('SELECT COUNT(*) FROM vehicles').fetchone()[0]
     conn.close()
-    return render_template('admin_stats.html', total_vehicles=total_vehicles)
+    return render_template('stats.html', total_vehicles=total_vehicles)
 
 # 🔎 Recherche
 @app.route('/search', methods=['GET', 'POST'])

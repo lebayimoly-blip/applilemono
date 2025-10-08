@@ -1,63 +1,43 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <title>Modifier le véhicule</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <style>
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      max-width: 500px;
-      margin: auto;
-    }
-    input, textarea {
-      padding: 8px;
-      font-size: 1em;
-    }
-    button {
-      padding: 10px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      cursor: pointer;
-      font-weight: bold;
-      border-radius: 5px;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
-    .message {
-      text-align: center;
-      color: green;
-      margin-top: 10px;
-    }
-  </style>
-</head>
-<body>
-  {% include 'navbar.html' %}
+{% extends 'base.html' %}
 
-  <header>
-    <h1 style="text-align:center;">Modifier le véhicule {{ vehicle.plate }}</h1>
-  </header>
+{% block title %}Modifier le véhicule{% endblock %}
 
-  <form method="post">
-    <input type="text" name="owner" value="{{ vehicle.owner }}" placeholder="Nom du propriétaire" required>
-    <input type="date" name="insurance_expiry" value="{{ vehicle.insurance_expiry }}" required>
-    <textarea name="history" placeholder="Historique">{{ vehicle.history }}</textarea>
-    <input type="text" name="brand" value="{{ vehicle.brand }}" placeholder="Marque">
-    <input type="text" name="model" value="{{ vehicle.model }}" placeholder="Modèle">
-    <input type="date" name="first_registration" value="{{ vehicle.first_registration }}">
-    <button type="submit">💾 Enregistrer les modifications</button>
+{% block content %}
+  <h1 class="text-center mb-4">Modifier le véhicule {{ vehicle.plate }}</h1>
+
+  <form method="post" class="bg-white p-4 rounded shadow-sm border border-primary-light" style="max-width: 500px; margin: auto;">
+    <div class="mb-3">
+      <input type="text" name="owner" value="{{ vehicle.owner }}" placeholder="Nom du propriétaire" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+      <input type="date" name="insurance_expiry" value="{{ vehicle.insurance_expiry }}" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+      <textarea name="history" placeholder="Historique" class="form-control">{{ vehicle.history }}</textarea>
+    </div>
+
+    <div class="mb-3">
+      <input type="text" name="brand" value="{{ vehicle.brand }}" placeholder="Marque" class="form-control">
+    </div>
+
+    <div class="mb-3">
+      <input type="text" name="model" value="{{ vehicle.model }}" placeholder="Modèle" class="form-control">
+    </div>
+
+    <div class="mb-3">
+      <input type="date" name="first_registration" value="{{ vehicle.first_registration }}" class="form-control">
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">💾 Enregistrer les modifications</button>
   </form>
 
   {% if message %}
-    <div class="message">{{ message }}</div>
+    <div class="message text-success text-center mt-3 fw-bold">{{ message }}</div>
   {% endif %}
 
-  <div style="text-align:center; margin-top:20px;">
-    <a href="/search">🔙 Retour à la recherche</a>
+  <div class="text-center mt-4">
+    <a href="/search" class="btn btn-outline-primary">🔙 Retour à la recherche</a>
   </div>
-</body>
-</html>
+{% endblock %}

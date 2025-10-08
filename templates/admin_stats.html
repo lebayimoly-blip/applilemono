@@ -1,13 +1,12 @@
-<!-- templates/admin_stats.html -->
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Statistiques</title>
-</head>
-<body>
-{% include 'navbar.html' %}
-  <h1>📊 Statistiques administratives</h1>
-  <p>Nombre total de véhicules enregistrés : {{ total_vehicles }}</p>
-  <a href="/dashboard">Retour au dashboard</a>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}Statistiques{% endblock %}
+
+{% block content %}
+  <h1 class="mb-4">📊 Statistiques administratives</h1>
+  <p class="fs-5">Nombre total de véhicules enregistrés : <strong>{{ total_vehicles }}</strong></p>
+
+  <div class="text-center mt-4">
+    <a href="/dashboard" class="btn btn-outline-primary">← Retour au dashboard</a>
+  </div>
+{% endblock %}

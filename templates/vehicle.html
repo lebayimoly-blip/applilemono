@@ -1,16 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Historique du véhicule</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-{% include 'navbar.html' %}
-  <header>
-    <h1>Historique pour {{ vehicle['plate'] }}</h1>
-  </header>
+{% extends 'base.html' %}
 
-  <div class="results">
+{% block title %}Historique du véhicule{% endblock %}
+
+{% block content %}
+  <h1 class="mb-4">Historique pour {{ vehicle['plate'] }}</h1>
+
+  <div class="results mb-4">
     <p><strong>Propriétaire :</strong> {{ vehicle['owner'] }}</p>
     <p><strong>Assurance :</strong> {{ vehicle['insurance_expiry'] }}</p>
     <p><strong>Marque :</strong> {{ vehicle['brand'] }}</p>
@@ -24,7 +19,7 @@
       <h2>Événements enregistrés :</h2>
       <ul>
         {% for e in events %}
-          <li>
+          <li class="mb-3">
             📅 {{ e['date'] }}<br>
             💬 {{ e['comment'] }}<br>
             {% if e['photo'] %}
@@ -35,9 +30,10 @@
       </ul>
     </div>
   {% else %}
-    <p>Aucun événement enregistré pour ce véhicule.</p>
+    <p class="text-muted">Aucun événement enregistré pour ce véhicule.</p>
   {% endif %}
 
-  <a href="/search">🔙 Retour à la recherche</a>
-</body>
-</html>
+  <div class="text-center mt-4">
+    <a href="/search" class="btn btn-outline-primary">🔙 Retour à la recherche</a>
+  </div>
+{% endblock %}

@@ -1,36 +1,39 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Ajouter un incident</title>
-</head>
-<body>
-{% include 'navbar.html' %}
-    <h2>Ajouter un nouvel incident</h2>
+{% extends 'base.html' %}
 
-    {% if message %}
-        <p style="color: green;">{{ message }}</p>
-    {% endif %}
+{% block title %}Ajouter un incident{% endblock %}
 
-    <form method="POST" enctype="multipart/form-data">
-        <label for="plate">Sélectionner un véhicule :</label><br>
-        <select name="plate" id="plate" required>
-            <option value="">-- Choisir une plaque --</option>
-            {% for vehicle in vehicles %}
-                <option value="{{ vehicle['plate'] }}">{{ vehicle['plate'] }}</option>
-            {% endfor %}
-        </select><br><br>
+{% block content %}
+  <h2 class="mb-4">Ajouter un nouvel incident</h2>
 
-        <label for="description">Description de l'incident :</label><br>
-        <textarea name="description" id="description" rows="4" cols="50" required></textarea><br><br>
+  {% if message %}
+    <p class="text-success fw-bold">{{ message }}</p>
+  {% endif %}
 
-        <label for="photo">Photo de l'incident :</label><br>
-        <input type="file" name="photo" id="photo" accept="image/*"><br><br>
+  <form method="POST" enctype="multipart/form-data" class="bg-white p-4 rounded shadow-sm border border-primary-light" style="max-width: 600px; margin: auto;">
+    <div class="mb-3">
+      <label for="plate" class="form-label">Sélectionner un véhicule :</label>
+      <select name="plate" id="plate" class="form-select" required>
+        <option value="">-- Choisir une plaque --</option>
+        {% for vehicle in vehicles %}
+          <option value="{{ vehicle['plate'] }}">{{ vehicle['plate'] }}</option>
+        {% endfor %}
+      </select>
+    </div>
 
-        <button type="submit">Ajouter l'incident</button>
-    </form>
+    <div class="mb-3">
+      <label for="description" class="form-label">Description de l'incident :</label>
+      <textarea name="description" id="description" rows="4" class="form-control" required></textarea>
+    </div>
 
-    <br>
-    <a href="/dashboard">⬅ Retour au tableau de bord</a>
-</body>
-</html>
+    <div class="mb-3">
+      <label for="photo" class="form-label">Photo de l'incident :</label>
+      <input type="file" name="photo" id="photo" accept="image/*" class="form-control">
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">Ajouter l'incident</button>
+  </form>
+
+  <div class="text-center mt-4">
+    <a href="/dashboard" class="btn btn-outline-primary">⬅ Retour au tableau de bord</a>
+  </div>
+{% endblock %}

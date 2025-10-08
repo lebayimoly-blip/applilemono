@@ -1,37 +1,40 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Ajouter un utilisateur</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-{% include 'navbar.html' %}
-  <div class="form-container">
-    <h1>👤 Ajouter un utilisateur</h1>
+{% extends 'base.html' %}
+
+{% block title %}Ajouter un utilisateur{% endblock %}
+
+{% block content %}
+  <div class="form-container" style="max-width: 600px; margin: auto;">
+    <h1 class="mb-4">👤 Ajouter un utilisateur</h1>
 
     {% if message %}
-      <div class="form-message">{{ message }}</div>
+      <div class="form-message text-success fw-bold">{{ message }}</div>
     {% endif %}
 
-    <form method="post">
-      <label for="username">Nom d'utilisateur</label>
-      <input type="text" id="username" name="username" required>
+    <form method="post" class="bg-white p-4 rounded shadow-sm border border-primary-light">
+      <div class="mb-3">
+        <label for="username" class="form-label">Nom d'utilisateur</label>
+        <input type="text" id="username" name="username" class="form-control" required>
+      </div>
 
-      <label for="password">Mot de passe</label>
-      <input type="password" id="password" name="password" required>
+      <div class="mb-3">
+        <label for="password" class="form-label">Mot de passe</label>
+        <input type="password" id="password" name="password" class="form-control" required>
+      </div>
 
-      <label for="role">Rôle</label>
-      <select id="role" name="role" required>
-        <option value="">-- Choisir un rôle --</option>
-        <option value="admin">Administrateur</option>
-        <option value="agent">Agent</option>
-      </select>
+      <div class="mb-3">
+        <label for="role" class="form-label">Rôle</label>
+        <select id="role" name="role" class="form-select" required>
+          <option value="">-- Choisir un rôle --</option>
+          <option value="admin">Administrateur</option>
+          <option value="agent">Agent</option>
+        </select>
+      </div>
 
-      <button type="submit" class="btn-submit">✅ Ajouter</button>
+      <button type="submit" class="btn btn-primary w-100">✅ Ajouter</button>
     </form>
 
-    <a href="/dashboard" class="btn-back">← Retour au dashboard</a>
+    <div class="text-center mt-4">
+      <a href="/dashboard" class="btn btn-outline-primary">← Retour au dashboard</a>
+    </div>
   </div>
-</body>
-</html>
-
+{% endblock %}

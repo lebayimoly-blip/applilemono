@@ -1,147 +1,75 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8"> 
-  <title>Fiche véhicule</title>
-  <style>
-    body {
-      background: linear-gradient(to right, #f0f4f8, #d9e2ec);
-      font-family: 'Segoe UI', sans-serif;
-      color: #333;
-      padding: 30px;
-      margin: 0;
-    }
+{% extends 'base.html' %}
 
-    .container {
-      max-width: 800px;
-      margin: auto;
-      background-color: white;
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.1);
-      padding: 30px;
-    }
+{% block title %}Fiche véhicule{% endblock %}
 
-    h1, h2, h3 {
-      color: #228B22;
-      margin-bottom: 20px;
-    }
+{% block content %}
+  <h1 class="mb-4">Fiche du véhicule</h1>
 
-    .incident {
-      background-color: #fff8e1;
-      border-left: 5px solid #ffa000;
-      padding: 15px;
-      margin-bottom: 20px;
-      border-radius: 8px;
-    }
-
-    .incident img {
-      margin-top: 10px;
-      max-width: 100%;
-      border-radius: 6px;
-      box-shadow: 0 0 5px rgba(0,0,0,0.1);
-    }
-
-    form {
-      margin-top: 30px;
-      background-color: #e3f2fd;
-      padding: 20px;
-      border-radius: 10px;
-    }
-
-    form textarea, form input[type="file"] {
-      width: 100%;
-      margin-top: 10px;
-      margin-bottom: 20px;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-
-    form button {
-      background-color: #228B22;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 6px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    form button:hover {
-      background-color: #1a6e1a;
-    }
-  </style>
-</head>
-<body>
-{% include 'navbar.html' %}
-  <h1>Fiche du véhicule</h1>
-{% if message %}
-  <p style="color: green; font-weight: bold;">{{ message }}</p>
-{% endif %}
+  {% if message %}
+    <p class="text-success fw-bold">{{ message }}</p>
+  {% endif %}
 
   {% if vehicle.photo %}
-    <img src="{{ url_for('static', filename='uploads/' + vehicle.photo) }}" alt="Photo du véhicule" style="max-width:300px;">
+    <img src="{{ url_for('static', filename='uploads/' + vehicle.photo) }}" alt="Photo du véhicule" class="img-fluid mb-3" style="max-width:300px;">
   {% else %}
-    <p style="color:red;">Aucune photo disponible</p>
+    <p class="text-danger">Aucune photo disponible</p>
   {% endif %}
 
-<form method="POST" enctype="multipart/form-data" style="margin-top: 20px;">
-  <label for="photo">📸 Nouvelle photo du véhicule :</label><br>
-  <input type="file" name="photo" accept="image/*" required>
-  <button type="submit">Mettre à jour la photo</button>
-</form>
+  <form method="POST" enctype="multipart/form-data" class="bg-light p-4 rounded mb-4" style="max-width: 600px; margin: auto;">
+    <label for="photo" class="form-label">📸 Nouvelle photo du véhicule :</label>
+    <input type="file" name="photo" accept="image/*" class="form-control mb-3" required>
+    <button type="submit" class="btn btn-success w-100">Mettre à jour la photo</button>
+  </form>
 
-<form method="POST" style="margin-top: 20px;">
-  <label for="last_maintenance">🛠️ Nouvelle date d’entretien :</label><br>
-  <input type="date" name="last_maintenance" required>
-  <button type="submit">Mettre à jour la date</button>
-</form>
+  <form method="POST" class="bg-light p-4 rounded mb-4" style="max-width: 600px; margin: auto;">
+    <label for="last_maintenance" class="form-label">🛠️ Nouvelle date d’entretien :</label>
+    <input type="date" name="last_maintenance" class="form-control mb-3" required>
+    <button type="submit" class="btn btn-success w-100">Mettre à jour la date</button>
+  </form>
 
-  <p><strong>Plaque :</strong> {{ vehicle['plate'] }}</p>
-  <p><strong>Propriétaire :</strong> {{ vehicle['owner'] }}</p>
-  <p><strong>Assurance :</strong> {{ vehicle['insurance_expiry'] }}</p>
-  <p><strong>Marque :</strong> {{ vehicle['brand'] }}</p>
-  <p><strong>Modèle :</strong> {{ vehicle['model'] }}</p>
-  <p><strong>1ère immatriculation :</strong> {{ vehicle['first_registration'] }}</p>
- <p><strong>Dernier entretien :</strong>
-  {% if vehicle['last_maintenance'] %}
-    {{ vehicle['last_maintenance'] }}
-  {% else %}
-    <span style="color: gray;">Non renseigné</span>
-  {% endif %}
-</p>
-
-
-
+  <div class="results mb-4">
+    <p><strong>Plaque :</strong> {{ vehicle['plate'] }}</p>
+    <p><strong>Propriétaire :</strong> {{ vehicle['owner'] }}</p>
+    <p><strong>Assurance :</strong> {{ vehicle['insurance_expiry'] }}</p>
+    <p><strong>Marque :</strong> {{ vehicle['brand'] }}</p>
+    <p><strong>Modèle :</strong> {{ vehicle['model'] }}</p>
+    <p><strong>1ère immatriculation :</strong> {{ vehicle['first_registration'] }}</p>
+    <p><strong>Dernier entretien :</strong>
+      {% if vehicle['last_maintenance'] %}
+        {{ vehicle['last_maintenance'] }}
+      {% else %}
+        <span class="text-muted">Non renseigné</span>
+      {% endif %}
+    </p>
+  </div>
 
   <div class="container">
-    <h3>📋 Historique des incidents</h3>
+    <h3 class="mb-3">📋 Historique des incidents</h3>
 
     {% if incidents %}
       {% for incident in incidents %}
-        <div class="incident">
+        <div class="incident mb-3 p-3 border-start border-warning bg-light rounded">
           <p><strong>Publié le :</strong> {{ incident['created_at'] }}</p>
           <p>{{ incident['description'] }}</p>
           {% if incident['photo'] %}
-            <img src="{{ url_for('static', filename='uploads/' + incident['photo']) }}" alt="Photo de l’incident">
+            <img src="{{ url_for('static', filename='uploads/' + incident['photo']) }}" alt="Photo de l’incident" class="img-fluid mt-2">
           {% endif %}
         </div>
       {% endfor %}
     {% else %}
-      <p>Aucun incident enregistré pour ce véhicule.</p>
+      <p class="text-muted">Aucun incident enregistré pour ce véhicule.</p>
     {% endif %}
 
     {% if session['role'] == 'agent' %}
-      <form method="POST" action="{{ url_for('add_incident', plate=vehicle['plate']) }}" enctype="multipart/form-data">
-        <label for="description">📝 Description de l’incident :</label>
-        <textarea name="description" required></textarea>
+      <form method="POST" action="{{ url_for('add_incident', plate=vehicle['plate']) }}" enctype="multipart/form-data" class="bg-white p-4 rounded shadow-sm border border-primary-light mt-4">
+        <label for="description" class="form-label">📝 Description de l’incident :</label>
+        <textarea name="description" class="form-control mb-3" required></textarea>
 
-        <label for="photo">📸 Photo de l’incident :</label>
-        <input type="file" name="photo" accept="image/*">
+        <label for="photo" class="form-label">📸 Photo de l’incident :</label>
+        <input type="file" name="photo" accept="image/*" class="form-control mb-3">
 
-        <button type="submit">Ajouter l’incident</button>
+        <button type="submit" class="btn btn-primary w-100">Ajouter l’incident</button>
       </form>
     {% endif %}
   </div>
-</body>
-</html>
+{% endblock %}

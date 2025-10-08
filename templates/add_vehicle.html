@@ -1,86 +1,57 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <title>Ajouter ou modifier un véhicule</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f4f4f4;
-      padding: 30px;
-    }
-    .form-container {
-      background-color: white;
-      padding: 30px;
-      border-radius: 10px;
-      max-width: 600px;
-      margin: auto;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    input, select {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      margin-bottom: 20px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-    button {
-      background-color: #228B22;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 6px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #1a6e1a;
-    }
-    .message {
-      color: green;
-      font-weight: bold;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-  </style>
-</head>
-<body>
-{% include 'navbar.html' %}
-  <div class="form-container">
-    <h1>🚗 Ajouter ou modifier un véhicule</h1>
+{% extends 'base.html' %}
+
+{% block title %}Ajouter ou modifier un véhicule{% endblock %}
+
+{% block content %}
+  <div class="form-container" style="max-width: 600px; margin: auto;">
+    <h1 class="mb-4">🚗 Ajouter ou modifier un véhicule</h1>
 
     {% if message %}
-      <div class="message">{{ message }}</div>
+      <div class="message text-success fw-bold text-center mb-3">{{ message }}</div>
     {% endif %}
 
-    <form method="POST" enctype="multipart/form-data">
-      <label>Plaque :</label>
-      <input type="text" name="plate" required>
+    <form method="POST" enctype="multipart/form-data" class="bg-white p-4 rounded shadow-sm border border-primary-light">
+      <div class="mb-3">
+        <label for="plate" class="form-label">Plaque :</label>
+        <input type="text" name="plate" id="plate" class="form-control" required>
+      </div>
 
-      <label>Propriétaire :</label>
-      <input type="text" name="owner" required>
+      <div class="mb-3">
+        <label for="owner" class="form-label">Propriétaire :</label>
+        <input type="text" name="owner" id="owner" class="form-control" required>
+      </div>
 
-      <label>Marque :</label>
-      <input type="text" name="brand" required>
+      <div class="mb-3">
+        <label for="brand" class="form-label">Marque :</label>
+        <input type="text" name="brand" id="brand" class="form-control" required>
+      </div>
 
-      <label>Modèle :</label>
-      <input type="text" name="model" required>
+      <div class="mb-3">
+        <label for="model" class="form-label">Modèle :</label>
+        <input type="text" name="model" id="model" class="form-control" required>
+      </div>
 
-      <label>Date d’expiration de l’assurance :</label>
-      <input type="date" name="insurance_expiry" required>
+      <div class="mb-3">
+        <label for="insurance_expiry" class="form-label">Date d’expiration de l’assurance :</label>
+        <input type="date" name="insurance_expiry" id="insurance_expiry" class="form-control" required>
+      </div>
 
-      <label>Date de première immatriculation :</label>
-      <input type="date" name="first_registration" required>
+      <div class="mb-3">
+        <label for="first_registration" class="form-label">Date de première immatriculation :</label>
+        <input type="date" name="first_registration" id="first_registration" class="form-control" required>
+      </div>
 
-      <label>Dernier entretien :</label>
-      <input type="date" name="last_maintenance">
+      <div class="mb-3">
+        <label for="last_maintenance" class="form-label">Dernier entretien :</label>
+        <input type="date" name="last_maintenance" id="last_maintenance" class="form-control">
+      </div>
 
-      <label>Photo du véhicule :</label>
-      <input type="file" name="photo" accept="image/*">
+      <div class="mb-3">
+        <label for="photo" class="form-label">Photo du véhicule :</label>
+        <input type="file" name="photo" id="photo" accept="image/*" class="form-control">
+      </div>
 
-      <button type="submit">Enregistrer</button>
+      <button type="submit" class="btn btn-success w-100">💾 Enregistrer</button>
     </form>
   </div>
-</body>
-</html>
+{% endblock %}
