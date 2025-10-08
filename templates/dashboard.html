@@ -1,11 +1,98 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tableau de bord</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body {
+      background-color: #228B22;
+      font-family: 'Segoe UI', sans-serif;
+      color: #FFD700;
+      text-align: center;
+      padding: 30px;
+      margin: 0;
+    }
 
-{% block title %}Tableau de bord{% endblock %}
+    h1 {
+      margin-bottom: 30px;
+      font-size: 2em;
+    }
 
-{% block content %}
-  <h1 class="mb-4">Bienvenue {{ session['admin'] }}</h1>
+    .dashboard {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
 
-  <div class="dashboard d-flex flex-wrap justify-content-center gap-4 mb-4">
+    .card {
+      background-color: white;
+      color: #228B22;
+      border: 2px solid #1E90FF;
+      border-radius: 10px;
+      padding: 20px;
+      width: 250px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+
+    .card a {
+      display: inline-block;
+      margin-top: 10px;
+      text-decoration: none;
+      color: #1E90FF;
+      font-weight: bold;
+    }
+
+    .card a:hover {
+      color: #187bcd;
+    }
+
+    .logout-button {
+      margin-top: 40px;
+    }
+
+    .logout-button a {
+      background-color: #FFD700;
+      color: #228B22;
+      padding: 15px 30px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.1em;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      transition: background-color 0.3s ease;
+    }
+
+    .logout-button a:hover {
+      background-color: #e6c200;
+    }
+
+    @media screen and (max-width: 480px) {
+      h1 {
+        font-size: 1.5em;
+      }
+
+      .card {
+        width: 90%;
+      }
+
+      .logout-button a {
+        width: 90%;
+        display: inline-block;
+      }
+    }
+  </style>
+</head>
+<body>
+  {% include 'navbar.html' %}
+
+  <h1>Bienvenue {{ session['admin'] }}</h1>
+
+  <div class="dashboard">
     <div class="card">
       <h2>🔍 Rechercher</h2>
       <a href="/search">Accéder</a>
@@ -17,10 +104,9 @@
     </div>
 
 <div class="card">
-  <h2>📊 Statistiques</h2>
-  <a href="/admin/stats">Voir</a>
-</div>
-
+      <h2>📊 Statistiques</h2>
+      <a href="/admin/stats">Voir</a>
+    </div>
 
     <div class="card">
       <h2>⚠️ Ajouter incident</h2>
@@ -52,9 +138,10 @@
     {% endif %}
   </div>
 
-  <div class="logout-button text-center mt-4">
+  <div class="logout-button">
     <a href="/logout" class="logout-link">
       🚪 Se déconnecter <span class="car">🚗</span>
     </a>
   </div>
-{% endblock %}
+</body>
+</html>
