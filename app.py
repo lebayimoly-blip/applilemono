@@ -416,7 +416,6 @@ def vehicle_detail_modify(plate):
         return "Véhicule introuvable", 404
 
 
-
 # 🚀 Lancement de l'app
 if __name__ == '__main__':
     print("🚀 Application Flask en cours de démarrage...")
