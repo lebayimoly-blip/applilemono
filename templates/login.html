@@ -1,28 +1,48 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Connexion</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <!-- Ajout de Font Awesome pour les icônes -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     body {
-      margin: 0;
-      padding: 0;
-      background-image: url("{{ url_for('static', filename='perroquet_gabon.png') }}");
-      background-size: cover;
-      background-position: center;
+      background-color: #228B22;
       font-family: 'Segoe UI', sans-serif;
-      color: #FFD700;
+      margin: 0;
       text-align: center;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      color: white;
     }
 
-    h1 {
+    .login-wrapper {
+      padding: 40px 20px;
+    }
+
+    .lemono-title {
+      font-size: 2em;
+      line-height: 1.4;
+      margin-bottom: 10px;
+      color: #fff8dc;
+    }
+
+    .lemono-title .highlight {
+      color: #FFD700;
+      font-weight: bold;
+    }
+
+    .lemono-title .search-icon {
+      margin-left: 10px;
+      color: #FFD700;
+      animation: pulse 1.5s infinite;
+    }
+
+    .slogan {
+      color: #fdf5e6;
+      font-size: 1.1em;
       margin-bottom: 30px;
-      text-shadow: 1px 1px 3px #000;
+      font-style: italic;
     }
 
     form {
@@ -63,20 +83,35 @@
       font-weight: bold;
       color: red;
     }
+
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.2); opacity: 0.7; }
+      100% { transform: scale(1); opacity: 1; }
+    }
   </style>
 </head>
 <body>
-{% include 'navbar.html' %}
-  <h1>Application Véhicule Gabon</h1>
+  {% include 'navbar.html' %}
 
-  <form method="post">
-    <input type="text" name="username" placeholder="Nom d'utilisateur" required>
-    <input type="password" name="password" placeholder="Mot de passe" required>
-    <button type="submit">Se connecter</button>
-  </form>
+  <div class="login-wrapper">
+    <h1 class="lemono-title">
+      Bienvenue dans <span class="highlight">LEMONO</span>
+      <i class="fas fa-search search-icon"></i>
+    </h1>
+    <div class="slogan">l'application qui voit et sait tout</div>
 
-  {% if error %}
-    <div class="message">{{ error }}</div>
-  {% endif %}
+    <form method="post">
+      <input type="text" name="username" placeholder="Nom d'utilisateur" required>
+      <input type="password" name="password" placeholder="Mot de passe" required>
+      <button type="submit">Se connecter</button>
+    </form>
+
+    {% if error %}
+      <div class="message">{{ error }}</div>
+    {% endif %}
+  </div>
 </body>
+{% include 'footer.html' %}
+
 </html>

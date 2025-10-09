@@ -1,13 +1,78 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestion des utilisateurs</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    h1, h2 {
+      color: var(--primary-light);
+    }
 
-{% block title %}Gestion des utilisateurs{% endblock %}
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background-color: white;
+      border-radius: 8px;
+      overflow: hidden;
+    }
 
-{% block content %}
-  <h1 class="mb-4">👑 Super utilisateur : {{ session['admin'] }}</h1>
+    th, td {
+      padding: 10px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+
+    form {
+      margin-top: 30px;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    input, select {
+      padding: 8px;
+      margin: 5px 0;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    button {
+      padding: 10px;
+      background-color: var(--primary-light);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background-color: var(--primary-dark);
+    }
+
+    .delete-link {
+      display: inline-block;
+      margin-top: 10px;
+      color: #d9534f;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .delete-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  {% include 'navbar.html' %}
+
+  <h1>👑 Super utilisateur : {{ session['admin'] }}</h1>
   <h2>📋 Liste des utilisateurs</h2>
 
-  <table class="table table-bordered table-striped mt-3">
-    <thead class="table-primary">
+  <table>
+    <thead>
       <tr>
         <th>ID</th>
         <th>Nom</th>
@@ -24,35 +89,36 @@
         <td>{{ user['email'] }}</td>
         <td>{{ user['role'] }}</td>
         <td>
-          <form method="POST" class="d-inline">
+          <form method="POST" style="display:inline;">
             <input type="hidden" name="user_id" value="{{ user['id'] }}">
-            <input type="text" name="username" value="{{ user['username'] }}" class="form-control mb-1" required>
-            <input type="email" name="email" value="{{ user['email'] }}" class="form-control mb-1">
-            <input type="text" name="password" placeholder="Nouveau mot de passe" class="form-control mb-1">
-            <select name="role" class="form-select mb-1">
+            <input type="text" name="username" value="{{ user['username'] }}" required>
+            <input type="email" name="email" value="{{ user['email'] }}">
+            <input type="text" name="password" placeholder="Nouveau mot de passe">
+            <select name="role">
               <option value="admin" {% if user['role'] == 'admin' %}selected{% endif %}>Admin</option>
               <option value="agent" {% if user['role'] == 'agent' %}selected{% endif %}>Agent</option>
               <option value="lecteur" {% if user['role'] == 'lecteur' %}selected{% endif %}>Lecteur</option>
             </select>
-            <button type="submit" class="btn btn-sm btn-primary">💾 Modifier</button>
+            <button type="submit">💾 Modifier</button>
           </form>
-          <a href="/admin/users/delete/{{ user['id'] }}" class="btn btn-sm btn-danger mt-2" onclick="return confirm('Supprimer cet utilisateur ?')">🗑️ Supprimer</a>
+          <a href="/admin/users/delete/{{ user['id'] }}" class="delete-link" onclick="return confirm('Supprimer cet utilisateur ?')">🗑️ Supprimer</a>
         </td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
 
-  <h2 class="mt-5">➕ Ajouter un nouvel utilisateur</h2>
-  <form method="POST" class="bg-white p-4 rounded shadow-sm border border-primary-light" style="max-width: 500px; margin: auto;">
-    <input type="text" name="username" placeholder="Nom d’utilisateur" class="form-control mb-3" required>
-    <input type="email" name="email" placeholder="Email" class="form-control mb-3">
-    <input type="text" name="password" placeholder="Mot de passe" class="form-control mb-3">
-    <select name="role" class="form-select mb-3">
+  <h2>➕ Ajouter un nouvel utilisateur</h2>
+  <form method="POST">
+    <input type="text" name="username" placeholder="Nom d’utilisateur" required>
+    <input type="email" name="email" placeholder="Email">
+    <input type="text" name="password" placeholder="Mot de passe">
+    <select name="role">
       <option value="admin">Admin</option>
       <option value="agent">Agent</option>
       <option value="lecteur">Lecteur</option>
     </select>
-    <button type="submit" class="btn btn-success w-100">Ajouter</button>
+    <button type="submit">Ajouter</button>
   </form>
-{% endblock %}
+</body>
+</html>

@@ -5,14 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tableau de bord</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     body {
       background-color: #228B22;
       font-family: 'Segoe UI', sans-serif;
       color: #FFD700;
-      text-align: center;
-      padding: 30px;
       margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      text-align: center;
+    }
+
+    .dashboard-wrapper {
+      width: 100%;
+      max-width: 1200px;
+      padding: 30px;
     }
 
     h1 {
@@ -37,6 +47,10 @@
       width: 250px;
       box-shadow: 0 0 10px rgba(0,0,0,0.2);
       text-align: center;
+    }
+
+    .card h2 i {
+      margin-right: 8px;
     }
 
     .card a {
@@ -90,58 +104,60 @@
 <body>
   {% include 'navbar.html' %}
 
-  <h1>Bienvenue {{ session['admin'] }}</h1>
+  <div class="dashboard-wrapper">
+    <h1>Bienvenue {{ session['admin'] }}</h1>
 
-  <div class="dashboard">
-    <div class="card">
-      <h2>🔍 Rechercher</h2>
-      <a href="/search">Accéder</a>
-    </div>
-
-    <div class="card">
-      <h2>✏️ Modifier</h2>
-      <a href="/modify_vehicle">Choisir</a>
-    </div>
-
-<div class="card">
-      <h2>📊 Statistiques</h2>
-      <a href="/admin/stats">Voir</a>
-    </div>
-
-    <div class="card">
-      <h2>⚠️ Ajouter incident</h2>
-      <a href="/add_incident">Créer</a>
-    </div>
-
-    <div class="card">
-      <h2>➕ Ajouter véhicule</h2>
-      <a href="/add_vehicle">Créer</a>
-    </div>
-
-    <div class="card">
-      <h2>📥 Import Excel</h2>
-      <a href="/import_excel">Charger</a>
-    </div>
-
-    {% if admin == 'lebayi moly' and role == 'admin' %}
+    <div class="dashboard">
       <div class="card">
-        <h2>👑 Gestion des utilisateurs</h2>
-        <a href="/admin/users">Accéder</a>
+        <h2><i class="fas fa-search"></i> Rechercher</h2>
+        <a href="/search">Accéder</a>
       </div>
-    {% endif %}
 
-    {% if session['role'] == 'admin' %}
       <div class="card">
-        <h2>👤 Ajouter un utilisateur</h2>
-        <a href="/admin/add_user">Créer</a>
+        <h2><i class="fas fa-edit"></i> Modifier</h2>
+        <a href="/modify_vehicle">Choisir</a>
       </div>
-    {% endif %}
-  </div>
 
-  <div class="logout-button">
-    <a href="/logout" class="logout-link">
-      🚪 Se déconnecter <span class="car">🚗</span>
-    </a>
+      <div class="card">
+        <h2><i class="fas fa-chart-bar"></i> Statistiques</h2>
+        <a href="/admin/stats">Voir</a>
+      </div>
+
+      <div class="card">
+        <h2><i class="fas fa-exclamation-triangle"></i> Ajouter incident</h2>
+        <a href="/add_incident">Créer</a>
+      </div>
+
+      <div class="card">
+        <h2><i class="fas fa-car"></i> Ajouter véhicule</h2>
+        <a href="/add_vehicle">Créer</a>
+      </div>
+
+      <div class="card">
+        <h2><i class="fas fa-file-import"></i> Import Excel</h2>
+        <a href="/import_excel">Charger</a>
+      </div>
+
+      {% if admin == 'lebayi moly' and role == 'admin' %}
+        <div class="card">
+          <h2><i class="fas fa-users-cog"></i> Gestion des utilisateurs</h2>
+          <a href="/admin/users">Accéder</a>
+        </div>
+      {% endif %}
+
+      {% if session['role'] == 'admin' %}
+        <div class="card">
+          <h2><i class="fas fa-user-plus"></i> Ajouter un utilisateur</h2>
+          <a href="/admin/add_user">Créer</a>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="logout-button">
+      <a href="/logout" class="logout-link">
+        <i class="fas fa-sign-out-alt"></i> Se déconnecter <i class="fas fa-car"></i>
+      </a>
+    </div>
   </div>
 </body>
 </html>

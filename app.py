@@ -193,10 +193,20 @@ def import_excel():
 def admin_stats():
     if 'admin' not in session:
         return redirect('/')
+
     conn = get_db_connection()
-    total_vehicles = conn.execute('SELECT COUNT(*) FROM vehicles').fetchone()[0]
+
+    total_vehicles = conn.execute(
+        'SELECT COUNT(*) FROM vehicles'
+    ).fetchone()[0]
+
     conn.close()
-    return render_template('stats.html', total_vehicles=total_vehicles)
+
+    return render_template(
+        'stats.html',
+        total_vehicles=total_vehicles
+    )
+
 
 # 🔎 Recherche
 @app.route('/search', methods=['GET', 'POST'])
