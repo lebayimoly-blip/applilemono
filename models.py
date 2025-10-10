@@ -2,6 +2,15 @@ import sqlite3
 from werkzeug.security import generate_password_hash
 from datetime import datetime
 
+from app import db
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    role = db.Column(db.String(20), nullable=False)
+    password = db.Column(db.String(128), nullable=False)
+
 # Connexion à la base de données (elle sera créée si elle n'existe pas)
 conn = sqlite3.connect('database.db')
 cursor = conn.cursor()

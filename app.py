@@ -1,36 +1,41 @@
-from datetime import datetime  # Ajouté en haut du fichier
+from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for, session
-import sqlite3
+from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import check_password_hash
 import os
 
-
+# Initialisation de l'application Flask
 app = Flask(__name__)
 app.secret_key = 'ton_secret_key'  # Remplace par une vraie clé secrète
 
-# 📦 Connexion à la base
-def get_db_connection():
-    conn = sqlite3.connect('database.db')
-    conn.row_factory = sqlite3.Row
-    return conn
+# Configuration de SQLAlchemy (PostgreSQL via Render)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///app.db')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Initialisation de SQLAlchemy
+db = SQLAlchemy(app)
 
 # 🔐 Page de login
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    from models import User  # Assure-toi que le modèle est bien importé
+
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        conn = get_db_connection()
-        user = conn.execute('SELECT * FROM users WHERE username = ? AND password = ?', (username, password)).fetchone()
-        conn.close()
-        if user:
-            session['admin'] = user['username']
-            session['role'] = user['role']
-            if session['role'] == 'agent':
+
+        user = User.query.filter_by(username=username).first()
+
+        if user and check_password_hash(user.password, password):
+            session['admin'] = user.username
+            session['role'] = user.role
+            if user.role == 'agent':
                 return redirect('/search')
             else:
                 return redirect('/dashboard')
         else:
             return render_template('login.html', error="Identifiants incorrects")
+
     return render_template('login.html')
 
 @app.route('/', methods=['GET', 'POST'])
@@ -425,6 +430,11 @@ def vehicle_detail_modify(plate):
     else:
         return "Véhicule introuvable", 404
 
+@app.route('/init-db')
+def init_db():
+    from models import db  # ou directement db si déjà importé
+    db.create_all()
+    return "✅ Base PostgreSQL initialisée avec succès !"
 
 # 🚀 Lancement de l'app
 if __name__ == '__main__':

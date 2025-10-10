@@ -1,0 +1,4 @@
+
+OUVRIR ENVIRRONEMEBT VIRTUEL
+python -m venv venv
+venv\Scripts\activate
