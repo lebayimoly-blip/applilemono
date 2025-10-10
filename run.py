@@ -1,7 +1,10 @@
-from app import create_app, db
-import models  # ← important pour que les tables soient connues
-
-app = create_app()
+from app import app
+from extensions import db
+import models
 
 with app.app_context():
     db.create_all()
+
+
+
+
