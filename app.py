@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import check_password_hash
 import os
+import models  # pour que les modèles soient enregistrés
 
 # Initialisation de l'application Flask
 app = Flask(__name__)
