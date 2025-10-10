@@ -2,3 +2,64 @@
 OUVRIR ENVIRRONEMEBT VIRTUEL
 python -m venv venv
 venv\Scripts\activate
+
+
+git init
+git add .
+git commit -m "Initial commit"
+git remote add origin https://github.com/ton-utilisateur/vehicle-app.git
+git push -u origin main
+
+https://applilemono-1.onrender.com
+
+https://applilemono-1.onrender.com/init-db
+
+
+
+
+
+
+from datetime import datetime  # Ajouté en haut du fichier
+from flask import Flask, render_template, request, redirect, url_for, session
+import sqlite3
+import os
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+app.secret_key = 'ton_secret_key'
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+
+# Initialisation de l'application Flask
+app = Flask(__name__)
+app.secret_key = 'ton_secret_key'  # Remplace par une vraie clé secrète
+
+# 📦 Connexion à la base SQLite (database.db)
+def get_db_connection():
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = sqlite3.Row
+    return conn
+
+# 🔐 Page de login
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        conn = get_db_connection()
+        user = conn.execute('SELECT * FROM users WHERE username = ? AND password = ?', (username, password)).fetchone()
+        conn.close()
+        if user:
+            session['admin'] = user['username']
+            session['role'] = user['role']
+            if session['role'] == 'agent':
+                return redirect('/search')
+            else:
+                return redirect('/dashboard')
+        else:
+            return render_template('login.html', error="Identifiants incorrects")
+    return render_template('login.html')

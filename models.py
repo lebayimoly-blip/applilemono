@@ -1,9 +1,7 @@
-import sqlite3
-from werkzeug.security import generate_password_hash
-from datetime import datetime
-
 from extensions import db
+from werkzeug.security import generate_password_hash
 
+# 🧑 Utilisateur
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
@@ -11,50 +9,39 @@ class User(db.Model):
     role = db.Column(db.String(20), nullable=False)
     password = db.Column(db.String(128), nullable=False)
 
-# Connexion à la base de données (elle sera créée si elle n'existe pas)
-conn = sqlite3.connect('database.db')
-cursor = conn.cursor()
+    @staticmethod
+    def create_default_admin():
+        if not User.query.filter_by(username='admin').first():
+            admin = User(
+                username='admin',
+                email='admin@example.com',
+                role='admin',
+                password=generate_password_hash('admin123')
+            )
+            db.session.add(admin)
+            db.session.commit()
 
-# Activation du support des dates/horaires
-conn.execute("PRAGMA foreign_keys = ON")
 
-# Création de la table des administrateurs
-cursor.execute('''
-CREATE TABLE IF NOT EXISTS admins (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT UNIQUE,
-    password TEXT
-)
-''')
+# 🚗 Véhicule
+class Vehicle(db.Model):
+    plate = db.Column(db.String, primary_key=True)
+    owner = db.Column(db.String, nullable=False)
+    brand = db.Column(db.String, nullable=True)
+    model = db.Column(db.String, nullable=True)
+    insurance_expiry = db.Column(db.String, nullable=True)
+    first_registration = db.Column(db.String, nullable=True)
+    last_maintenance = db.Column(db.String, nullable=True)
+    maintenance_date = db.Column(db.String, nullable=True)
+    history = db.Column(db.Text, nullable=True)
+    photo = db.Column(db.String, nullable=True)
 
-# Création de la table des véhicules
-cursor.execute('''
-CREATE TABLE IF NOT EXISTS vehicles (
-    plate TEXT PRIMARY KEY,
-    owner TEXT,
-    insurance_expiry TEXT,
-    history TEXT
-)
-''')
 
-# Création de la table des incidents
-cursor.execute('''
-CREATE TABLE IF NOT EXISTS incidents (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    description TEXT NOT NULL,
-    photo TEXT,
-    timestamp TEXT DEFAULT (datetime('now')),
-    vehicle_plate TEXT,
-    FOREIGN KEY(vehicle_plate) REFERENCES vehicles(plate) ON DELETE CASCADE
-)
-''')
+# ⚠️ Incident
+class Incident(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    description = db.Column(db.Text, nullable=False)
+    photo = db.Column(db.String, nullable=True)
+    timestamp = db.Column(db.String, nullable=False)
+    vehicle_plate = db.Column(db.String, db.ForeignKey('vehicle.plate'), nullable=False)
 
-# Ajout d'un administrateur par défaut
-cursor.execute('''
-INSERT OR IGNORE INTO admins (username, password)
-VALUES (?, ?)
-''', ('admin', generate_password_hash('admin123')))
-
-# Sauvegarde et fermeture
-conn.commit()
-conn.close()
+    vehicle = db.relationship('Vehicle', backref=db.backref('incidents', cascade='all, delete'))
