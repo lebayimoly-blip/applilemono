@@ -172,3 +172,7 @@ body {
   text-align: center;
   padding: 20px;
 }
+.highlight {
+  color: #FFD700;
+  font-weight: bold;
+}

@@ -2,11 +2,31 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gestion des utilisateurs</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <style>
+    :root {
+      --primary-light: #1E90FF;
+      --primary-dark: #187bcd;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f0f8ff;
+      color: #333;
+    }
+
     h1, h2 {
       color: var(--primary-light);
+      text-align: center;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
     }
 
     table {
@@ -68,57 +88,47 @@
 <body>
   {% include 'navbar.html' %}
 
-  <h1>👑 Super utilisateur : {{ session['admin'] }}</h1>
-  <h2>📋 Liste des utilisateurs</h2>
+  <div class="container">
+    <h1>👑 Super utilisateur : {{ session['admin'] }}</h1>
+    <h2>📋 Liste des utilisateurs</h2>
 
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Nom</th>
-        <th>Email</th>
-        <th>Rôle</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for user in users %}
-      <tr>
-        <td>{{ user['id'] }}</td>
-        <td>{{ user['username'] }}</td>
-        <td>{{ user['email'] }}</td>
-        <td>{{ user['role'] }}</td>
-        <td>
-          <form method="POST" style="display:inline;">
-            <input type="hidden" name="user_id" value="{{ user['id'] }}">
-            <input type="text" name="username" value="{{ user['username'] }}" required>
-            <input type="email" name="email" value="{{ user['email'] }}">
-            <input type="text" name="password" placeholder="Nouveau mot de passe">
-            <select name="role">
-              <option value="admin" {% if user['role'] == 'admin' %}selected{% endif %}>Admin</option>
-              <option value="agent" {% if user['role'] == 'agent' %}selected{% endif %}>Agent</option>
-              <option value="lecteur" {% if user['role'] == 'lecteur' %}selected{% endif %}>Lecteur</option>
-            </select>
-            <button type="submit">💾 Modifier</button>
-          </form>
-          <a href="/admin/users/delete/{{ user['id'] }}" class="delete-link" onclick="return confirm('Supprimer cet utilisateur ?')">🗑️ Supprimer</a>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-
-  <h2>➕ Ajouter un nouvel utilisateur</h2>
-  <form method="POST">
-    <input type="text" name="username" placeholder="Nom d’utilisateur" required>
-    <input type="email" name="email" placeholder="Email">
-    <input type="text" name="password" placeholder="Mot de passe">
-    <select name="role">
-      <option value="admin">Admin</option>
-      <option value="agent">Agent</option>
-      <option value="lecteur">Lecteur</option>
-    </select>
-    <button type="submit">Ajouter</button>
-  </form>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nom</th>
+          <th>Email</th>
+          <th>Rôle</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+        <tr>
+          <td>{{ user['id'] }}</td>
+          <td>{{ user['username'] }}</td>
+          <td>{{ user['email'] }}</td>
+          <td>{{ user['role'] }}</td>
+          <td>
+            <form method="POST" style="display:inline;">
+              <input type="hidden" name="user_id" value="{{ user['id'] }}">
+              <input type="text" name="username" value="{{ user['username'] }}" required>
+              <input type="email" name="email" value="{{ user['email'] }}">
+              <input type="text" name="password" placeholder="Nouveau mot de passe">
+              <select name="role">
+                <option value="admin" {% if user['role'] == 'admin' %}selected{% endif %}>Admin</option>
+                <option value="agent" {% if user['role'] == 'agent' %}selected{% endif %}>Agent</option>
+                <option value="lecteur" {% if user['role'] == 'lecteur' %}selected{% endif %}>Lecteur</option>
+              </select>
+              <button type="submit">💾 Modifier</button>
+            </form>
+            <a href="/admin/users/delete/{{ user['id'] }}" class="delete-link" onclick="return confirm('Supprimer cet utilisateur ?')">🗑️ Supprimer</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    
+    </form>
+  </div>
 </body>
 </html>
